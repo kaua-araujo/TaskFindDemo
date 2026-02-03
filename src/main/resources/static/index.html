@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarefas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+    <header>📝 Minhas Tarefas</header>
+
+    <div class="form">
+        <input type="text" id="titulo" placeholder="Título">
+        <input type="text" id="descricao" placeholder="Descrição">
+        <button onclick="criarTarefa()">Adicionar</button>
+    </div>
+
+    <div class="tasks" id="lista"></div>
+</div>
+
+<script>
+    const apiUrl = "http://localhost:8080/tasks";
+
+    function criarTarefa() {
+        const titulo = document.getElementById("titulo").value;
+        const descricao = document.getElementById("descricao").value;
+
+        if (!titulo || !descricao) return;
+
+        fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ titulo, descricao })
+        }).then(() => {
+            document.getElementById("titulo").value = "";
+            document.getElementById("descricao").value = "";
+            listarTarefas();
+        });
+    }
+
+    function listarTarefas() {
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(tasks => {
+                const lista = document.getElementById("lista");
+                lista.innerHTML = "";
+
+                tasks.forEach(task => {
+                    const div = document.createElement("div");
+                    div.className = "task" + (task.status === "CONCLUIDA" ? " concluida" : "");
+
+                    div.innerHTML = `
+                        <button class="btn-excluir" onclick="excluirTarefa(${task.id})">✕</button>
+                        <div class="task-info">
+                            <strong>${task.titulo}</strong>
+                            <span>${task.descricao}</span>
+                        </div>
+                        ${task.status !== "CONCLUIDA"
+                            ? `<button class="btn-concluir" onclick="concluirTarefa(${task.id})">✓</button>`
+                            : ""
+                        }
+                    `;
+                    lista.appendChild(div);
+                });
+            });
+    }
+
+    function concluirTarefa(id) {
+        fetch(`${apiUrl}/${id}/status?status=CONCLUIDA`, {
+            method: "PUT"
+        }).then(() => listarTarefas());
+    }
+
+    function excluirTarefa(id) {
+        fetch(`${apiUrl}/${id}`, {
+            method: "DELETE"
+        }).then(() => listarTarefas());
+    }
+
+    listarTarefas();
+</script>
+
+</body>
+</html>

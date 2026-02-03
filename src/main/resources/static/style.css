@@ -1,0 +1,131 @@
+:root {
+    --primary: #6c63ff;
+    --success: #2ecc71;
+    --danger: #ff6b6b;
+    --bg: #f2f3f7;
+    --card: #ffffff;
+    --text: #333;
+    --muted: #888;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.app {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: var(--primary);
+    color: white;
+    padding: 18px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.form {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.tasks {
+    padding: 16px;
+    flex: 1;
+}
+
+.task {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px 48px 16px 16px; 
+    margin-bottom: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.task.concluida {
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+.task-info strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+}
+
+.task-info span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.btn-concluir {
+    background: var(--success);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 12px; 
+    flex-shrink: 0;
+}
+
+.btn-excluir {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #bbb;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-excluir:hover {
+    color: var(--danger);
+}
